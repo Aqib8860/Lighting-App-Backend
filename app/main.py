@@ -12,7 +12,7 @@ from routers.products import router as product_router
 
 from starlette_admin.contrib.sqla import Admin, ModelView
 
-app = FastAPI()
+app = FastAPI(root_path="/api")
 
 allowed_origins = ['*']
 
