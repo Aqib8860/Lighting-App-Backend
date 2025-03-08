@@ -25,7 +25,7 @@ app.add_middleware(
     # max_age=600 # for cache
 )
 
-allowed_host = ["localhost", "127.0.0.1", "13.203.139.154", "wa-box.ua-apis.com"]
+allowed_host = ["localhost", "127.0.0.1", "3.110.154.148"]
 app.add_middleware(TrustedHostMiddleware, allowed_hosts=allowed_host)
 
 
