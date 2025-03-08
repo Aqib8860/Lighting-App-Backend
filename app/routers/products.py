@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, Form, UploadFile, File
+from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from models.database import SessionLocal
 from schemas.products import ProductActionBase, ProductBase, ProductImageBase, ProductCategoriesBase, ProductBulbAction, ProductBulb, AdminProductsListBase
@@ -18,6 +19,12 @@ def get_db():
 
 
 # ---------------------- Product ---------------------------------------------------------------
+
+@router.get("/")
+async def get_no_found(db: Session = Depends(get_db)):
+    return JSONResponse(status_code=404, content={"detail": "Page not found"})
+
+
 #  Add Product
 @router.post("/product/", response_model=ProductBase)
 async def create_new_product(product: ProductActionBase, db: Session = Depends(get_db)):
