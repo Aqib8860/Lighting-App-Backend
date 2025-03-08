@@ -2,3 +2,4 @@ venv
 venv/
 venv/*
 app/alembic.ini
+alembic.ini
