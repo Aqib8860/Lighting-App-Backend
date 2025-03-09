@@ -10,7 +10,8 @@ class Product(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True, nullable=True)
-    price = Column(Float, default=0)
+    sale_price = Column(Float, default=0)
+    original_price = Column(Float, default=0)
     is_available = Column(Boolean, default=False)
     category = Column(String, index=True, nullable=True)
     height = Column(Float, nullable=True)

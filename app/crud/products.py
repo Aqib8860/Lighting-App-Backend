@@ -7,14 +7,15 @@ from fastapi.responses import JSONResponse
 
 from .file_upload import upload_to_s3
 from models.products import Product, ProductImage, ProductBulb
-from schemas.products import ProductActionBase, ProductBulbAction, AdminProductsListBase
+from schemas.products import ProductActionBase, ProductBulbAction, AdminProductsListBase, ProductsListBase
 
 # ------------------------------------- Product ----------------------------------------------------------------
 
 async def create_product(db: Session, product: ProductActionBase):
     try:
         db_product = Product(
-            name=product.name, price=product.price,
+            name=product.name, original_price=product.original_price,
+            sale_price=product.sale_price,
             is_available=product.is_available,
             category=product.category,
             height=product.height, width=product.width,
@@ -36,7 +37,10 @@ async def create_product(db: Session, product: ProductActionBase):
 
 # Products List
 async def get_all_products(db: Session):
-    return db.query(Product).order_by(Product.id).all()
+    query = db.query(Product)
+    products =  query.order_by(Product.id.desc()).options(selectinload(Product.images)).all()
+    return [await ProductsListBase.get_image_data(product) for product in products]
+
 
 
 async def get_product_view(db: Session, product_id: int):
