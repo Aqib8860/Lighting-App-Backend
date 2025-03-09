@@ -11,6 +11,10 @@ from routers.user import router as user_router
 from routers.products import router as product_router
 
 from starlette_admin.contrib.sqla import Admin, ModelView
+from logging_config import setup_logging
+
+
+setup_logging()
 
 app = FastAPI(root_path="/api")
 
