@@ -7,7 +7,7 @@ from fastapi.responses import JSONResponse
 
 from .file_upload import upload_to_s3
 from models.products import Product, ProductImage, ProductBulb
-from schemas.products import ProductActionBase, ProductBulbAction, AdminProductsListBase, ProductsListBase
+from schemas.products import ProductActionBase, ProductBulbAction, AdminProductsListBase, ProductsListBase, ProductBase, ProductsDetailBase
 
 # ------------------------------------- Product ----------------------------------------------------------------
 
@@ -44,11 +44,11 @@ async def get_all_products(db: Session):
 
 
 async def get_product_view(db: Session, product_id: int):
-    product = db.query(Product).filter(Product.id == product_id).first()
+    product = db.query(Product).filter(Product.id == product_id).options(selectinload(Product.images)).first()
     if not product:
         return JSONResponse(status_code=404, content={"detail": "Product not found"})
     
-    return product
+    return await ProductsDetailBase.get_image_data(product)
 
 
 async def admin_products_list_view(db: Session, get_image: bool, name:str, category:str):

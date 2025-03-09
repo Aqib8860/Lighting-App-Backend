@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, Form, UploadFile, File
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from models.database import SessionLocal
-from schemas.products import ProductActionBase, ProductBase, ProductImageBase, ProductCategoriesBase, ProductBulbAction, ProductBulb, AdminProductsListBase, ProductsListBase
+from schemas.products import ProductActionBase, ProductBase, ProductImageBase, ProductCategoriesBase, ProductBulbAction, ProductBulb, AdminProductsListBase, ProductsListBase, ProductBase, ProductsDetailBase
 from crud.products import (
     create_product, get_all_products, add_product_image_view, get_product_images_view, get_product_categories_view, delete_product_view,  update_product_view, delete_product_image_view,
     add_product_bulb_view, get_product_bulbs_view, admin_products_list_view, get_product_view
@@ -49,7 +49,7 @@ async def admin_products_list(
 
 
 # Retrive Product
-@router.get("/product/{product_id}", response_model=ProductBase)
+@router.get("/product/{product_id}", response_model=ProductsDetailBase)
 async def get_product(
     product_id: int,
     db: Session = Depends(get_db)
