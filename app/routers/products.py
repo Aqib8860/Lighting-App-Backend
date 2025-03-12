@@ -2,11 +2,11 @@ from fastapi import APIRouter, Depends, Form, UploadFile, File
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from models.database import SessionLocal
-from schemas.products import ProductActionBase, ProductBase, ProductImageBase, ProductCategoriesBase, ProductBulbAction, ProductBulb, AdminProductsListBase, ProductsListBase, ProductBase, ProductsDetailBase
+from schemas.products import ProductActionBase, ProductBase, ProductImageBase, ProductCategoriesBase, AdminProductsListBase, ProductsListBase, ProductBase, ProductsDetailBase
 from crud.products import (
     create_product, get_all_products, add_product_image_view, get_product_images_view, get_product_categories_view, delete_product_view,  update_product_view, delete_product_image_view,
-    add_product_bulb_view, get_product_bulbs_view, admin_products_list_view, get_product_view
-    )
+    admin_products_list_view, get_product_view
+)
 
 router = APIRouter()
 
@@ -106,19 +106,3 @@ async def delete_product_image(image_id: int, db: Session = Depends(get_db)):
 
 # =================================================================================================
 
-
-# ---------------------Product Bulb ----------------------------------------------------------------
-# Ad Product Bulb
-@router.post("/product-bulb/", response_model=ProductBulb)
-async def add_product_bulb(
-    bulb: ProductBulbAction,
-    db: Session = Depends(get_db)
-):
-    return await add_product_bulb_view(db=db, bulb=bulb)
-
-
-# Get Product Bulbs
-@router.get("/product-bulb/{product_id}/", response_model=list[ProductBulb])
-async def get_product_bulbs(product_id: int, db: Session = Depends(get_db)):
-    return await get_product_bulbs_view(db=db, product_id=product_id)
-# =================================================================================================
