@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import Dict, Any
 
+
 class ProductBase(BaseModel):
     id: int | None = None
     name: str | None = None
@@ -9,11 +10,9 @@ class ProductBase(BaseModel):
     is_available: bool | None = None
     category: str | None = None
     description: str | None = None
-    height: float | None = None
-    width: float | None = None
-    length: float | None = None
     slug: str | None = None
     quantity: int | None = None
+    unit: str | None = None
 
 
 class ProductActionBase(BaseModel):
@@ -22,12 +21,10 @@ class ProductActionBase(BaseModel):
     original_price: float | None = None
     is_available: bool | None = None
     category: str | None = None
-    height: float | None = None
-    width: float | None = None
-    length: float | None = None
     description: str | None = None
     quantity: int | None = None
     slug: str | None = None
+    unit: str | None = None
 
 
 class ProductImageBase(BaseModel):
@@ -45,25 +42,6 @@ class ProductCategoriesBase(BaseModel):
     category: str | None = None
 
 
-class ProductBulb(BaseModel):
-    id: int
-    product_id: int | None = None
-    quantity: int | None = None
-    price: float | None = None
-    free_with_product: bool | None = None
-    is_available: bool
-    image: str
-
-
-class ProductBulbAction(BaseModel):
-    product_id: int
-    quantity: int
-    price: float
-    free_with_product: bool
-    is_available: bool
-    image: str
-
-
 class AdminProductsListBase(BaseModel):
     id: int | None = None
     name: str | None = None
@@ -73,6 +51,7 @@ class AdminProductsListBase(BaseModel):
     category: str | None = None
     description: str | None = None
     quantity: int | None = 0
+    unit: str | None = None
     image: str | None = None
 
     class Config:
@@ -113,11 +92,10 @@ class ProductsDetailBase(BaseModel):
     is_available: bool | None = None
     category: str | None = None
     description: str | None = None
-    height: float | None = None
-    width: float | None = None
-    length: float | None = None
     slug: str | None = None
     image: str | None = None
+    quantity: int | None = None
+    unit: str | None = None
 
     class Config:
         from_attributes = True

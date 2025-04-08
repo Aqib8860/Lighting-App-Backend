@@ -6,8 +6,8 @@ from sqlalchemy.orm import Session
 from fastapi.responses import JSONResponse
 
 from .file_upload import upload_to_s3
-from models.products import Product, ProductImage, ProductBulb
-from schemas.products import ProductActionBase, ProductBulbAction, AdminProductsListBase, ProductsListBase, ProductBase, ProductsDetailBase
+from models.products import Product, ProductImage
+from schemas.products import ProductActionBase, AdminProductsListBase, ProductsListBase, ProductBase, ProductsDetailBase
 
 # ------------------------------------- Product ----------------------------------------------------------------
 
@@ -18,11 +18,10 @@ async def create_product(db: Session, product: ProductActionBase):
             sale_price=product.sale_price,
             is_available=product.is_available,
             category=product.category,
-            height=product.height, width=product.width,
-            length=product.length,
             description=product.description,
             slug=product.slug,
-            quantity=product.quantity
+            quantity=product.quantity,
+            unit=product.unit
         )
         
         db.add(db_product)    
@@ -123,7 +122,7 @@ async def add_product_image_view(db, product_id, image):
         current_time = datetime.now()
         timestamp = datetime.timestamp(current_time)
 
-        image_url = f"ashrafi-lights/{int(timestamp)}_{image.filename}"
+        image_url = f"al-qudsiyah/{int(timestamp)}_{image.filename}"
 
         file_content = await image.read()
         
@@ -169,46 +168,4 @@ async def delete_product_image_view(db:Session, image_id:int):
         db.rollback()
         return JSONResponse({"detail": str(e)}, status_code=400)
 # =================================================================================================================
-
-
-# ------------------------------------- Product Bulb ----------------------------------------------------------------
-
-async def add_product_bulb_view(db:Session, bulb: ProductBulbAction):
-    try:
-        product = db.query(Product).filter(Product.id == bulb.product_id).first()
-        if not product:
-            return JSONResponse(status_code=404, content={"detail": "Product not found"})
-        
-        entry_exists = db.query(ProductBulb).filter(ProductBulb.product_id == bulb.product_id).first()
-        if entry_exists:
-            return JSONResponse(status_code=400, content={"detail": "Product Bulb already exists"})
-
-        db_product_bulb = ProductBulb(
-            product_id=bulb.product_id,
-            quantity=bulb.quantity,
-            price=bulb.price,
-            free_with_product=bulb.free_with_product,
-            is_available=bulb.is_available,
-            image=bulb.image
-        )
-        
-        db.add(db_product_bulb)
-        db.commit()
-        db.refresh(db_product_bulb)
-        
-        return db_product_bulb
-    except Exception as e:
-        db.rollback()
-        return JSONResponse({"detail": str(e)}, status_code=400)
-    
-
-async def get_product_bulbs_view(db: Session, product_id: int):
-    try:
-        product = db.query(Product).filter(Product.id == product_id).first()
-        if not product:
-            return JSONResponse(status_code=404, content={"detail": "Product not found"})
-
-        return db.query(ProductBulb).filter(ProductBulb.product_id == product_id).all()
-    except Exception as e:
-        return JSONResponse({"detail": str(e)}, status_code=400)
 
