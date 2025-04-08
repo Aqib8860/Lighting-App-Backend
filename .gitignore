@@ -3,3 +3,5 @@ venv/
 venv/*
 app/alembic.ini
 alembic.ini
+app.log
+app/app.log
