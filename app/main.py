@@ -29,7 +29,7 @@ app.add_middleware(
     # max_age=600 # for cache
 )
 
-allowed_host = ["localhost", "127.0.0.1", "13.126.195.172", "alqudsiyah.in"]
+allowed_host = ["localhost", "127.0.0.1", "13.126.172.50", "ashrafilights.aiworld.solutions"]
 app.add_middleware(TrustedHostMiddleware, allowed_hosts=allowed_host)
 
 
