@@ -22,8 +22,7 @@ class Product(Base):
     category = Column(String, index=True, nullable=True)
     description = Column(Text, nullable=True)
     slug = Column(String, index=True, nullable=True)
-    # quantity = Column(Integer, default=0)
-    # unit = Column(String, nullable=True)
+
     rating = Column(Float, default=0)
     in_stock = Column(Integer, default=0)
 
