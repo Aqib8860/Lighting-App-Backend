@@ -30,9 +30,8 @@ app.add_middleware(
 )
 
 allowed_host = ["localhost", "127.0.0.1", "15.207.114.248", "ashrafilights.aiworld.solutions"]
+
 app.add_middleware(TrustedHostMiddleware, allowed_hosts=allowed_host)
-
-
 
 
 # admin = Admin(engine, title="AL QUDSIYAH")
