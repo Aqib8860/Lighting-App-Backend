@@ -55,7 +55,7 @@ class ProductCartAssociation(Base):
 
     product_id = Column(Integer, ForeignKey("products.id"), primary_key=True)
     cart_id = Column(Integer, ForeignKey("cart.id"), primary_key=True)
-    quantity = Column(Integer, default=1)
+    # quantity = Column(Integer, default=1)
 
 
 class ProductImage(Base):

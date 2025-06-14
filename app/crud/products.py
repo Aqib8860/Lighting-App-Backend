@@ -272,7 +272,7 @@ async def add_to_cart_view(db: Session, user: dict, cart: AddToCartBase):
             return JSONResponse({"msg": "Item already in cart"}, status_code=200)
         
         # Add Product in cart
-        db_product_cart = ProductCartAssociation(product_id=cart.product_id, cart_id=user_cart.id, quantity=cart.quantity)
+        db_product_cart = ProductCartAssociation(product_id=cart.product_id, cart_id=user_cart.id)
 
         db.add(db_product_cart)
         db.commit()
